@@ -1,13 +1,16 @@
 // Right click on the script name and hit "Run" to execute
 const { expect } = require("chai");
 
-describe("Test", function () {
-  it("Some tests with chai", async function () {
-    var a = 4;
-    var b = 8;
-    var sum = 12;
-    expect(a).to.equal(4);
-    expect(b).to.equal(8);
-    expect(a+b).to.equal(sum);
+describe("Test 1", function () {
+  it("test initial value", async function () {
+    // Make sure contract is compiled and artifacts are generated
+    const metadata = JSON.parse(await remix.call('fileManager', 'getFile', 'contracts/artifacts/Owner.json'))
+    const signer = (new ethers.providers.Web3Provider(web3Provider)).getSigner()
+    let Value_zero = new ethers.ContractFactory(metadata.abi, metadata.data.bytecode.object, signer);
+    let value_zero = await Value_zero.deploy();
+
+    console.log('value_zero Address: ' + value_zero.address); // logs
+    expect((value_zero.address).length).to.equal(42); // length of the address should equal to 42
   });
+
 });
